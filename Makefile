@@ -9,7 +9,7 @@ DEVKITPPC ?= $(DEVKITPRO)/devkitPPC
 LIBOGC := $(DEVKITPRO)/libogc
 
 CC := $(DEVKITPPC)/bin/powerpc-eabi-gcc
-ELF2DOL := $(DEVKITPPC)/bin/elf2dol
+ELF2DOL := $(DEVKITPRO)/tools/bin/elf2dol
 
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
 CFLAGS := -g -O2 -Wall $(MACHDEP) -I$(LIBOGC)/include
