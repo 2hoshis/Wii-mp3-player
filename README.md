@@ -57,9 +57,12 @@ sd:/music
 
 ## Dolphinでのセットアップ
 
-このプロジェクトはDolphin Emulator上で動作確認しています。
+このプロジェクトは、Dolphin Emulator上で動作確認しています。
 
-DolphinのSDカード同期フォルダは、以下のような構成にしてください。
+### 1. SDカード同期用フォルダを用意する
+
+まず、DolphinでSDカードとして使うフォルダを用意します。
+例として、以下のようなフォルダを作成します。
 
 ```text
 WiiSDSync/
@@ -73,84 +76,132 @@ WiiSDSync/
    └─ song2.mp3
 ```
 
-Dolphin側では以下の設定を行います。
+Dolphinから見ると、この `WiiSDSync` フォルダが `sd:/` として扱われます。
 
-1. SDカードの挿入をエミュレートする
-2. SDカードへの書き込みを許可する
-3. SDカードのフォルダ同期を有効にする
-4. 同期フォルダに `WiiSDSync` フォルダを指定する
-5. `boot.dol` を直接起動する、またはForwarder Channel WADをインストールしてWiiメニューから起動する
+そのため、MP3ファイルは以下の場所に配置します。
+
+```text
+WiiSDSync/music/
+```
+
+Wii側からは以下のパスとして認識されます。
+
+```text
+sd:/music
+```
+
+---
+
+### 2. DolphinでSDカード設定を有効にする
+
+Dolphinを起動し、以下の設定を行います。
+
+```text
+設定
+↓
+Wii
+↓
+SDカード
+```
+
+以下の項目を有効にしてください。
+
+* SDカードの挿入をエミュレートする
+* SDカードへの書き込みを許可する
+* SDカードのフォルダ同期を有効にする
+
+その後、同期フォルダとして、先ほど作成した `WiiSDSync` フォルダを指定します。
+
+例：
+
+```text
+C:\Users\ユーザー名\Apps\Dolphin\User\Load\WiiSDSync
+```
+
+---
+
+### 3. boot.dolを直接起動する場合
+
+Dolphinから直接アプリを起動する場合は、以下のファイルを開きます。
+
+```text
+WiiSDSync/apps/wii-mp3-player/boot.dol
+```
+
+Dolphinでは以下の操作で起動できます。
+
+```text
+ファイル
+↓
+開く
+↓
+boot.dol を選択
+```
+
+起動後、`sd:/music` にMP3ファイルが入っていれば、曲一覧が表示されます。
+
+---
 
 ## Forwarder Channel
 
-このプロジェクトには、Dolphinでの使用を想定したカスタムForwarder Channelが含まれています。
+このプロジェクトには、Dolphinでの使用を想定したカスタムForwarder Channelがあります。
 
-Forwarder Channelは以下のファイルを起動します。
+Forwarder Channelは、Wiiメニュー上に表示されるチャンネルです。
+このチャンネルを起動すると、SDカード上の以下のファイルを読み込んで実行します。
 
 ```text
 sd:/apps/wii-mp3-player/boot.dol
 ```
 
-Forwarder Channelには以下の要素を追加しています。
+つまり、WiiメニューからMP3プレイヤーを起動できるようになります。
 
-* カスタムアイコン
-* カスタムバナー
+### Forwarder Channelの内容
+
+このForwarder Channelには、以下の要素を追加しています。
+
+* カスタムチャンネルアイコン
+* カスタムチャンネルバナー
 * カスタムチャンネルサウンド
 
-このWADファイルはDolphinでのテスト用です。
+---
 
-## ビルド方法
+### DolphinにForwarder Channel WADをインストールする
 
-このプロジェクトは devkitPro / devkitPPC / libogc を使用しています。
-
-ビルドするには、以下を実行します。
-
-```sh
-make
-```
-
-生成された `.dol` ファイルを以下の名前に変更してください。
+DolphinでWADファイルをインストールするには、以下の操作を行います。
 
 ```text
-boot.dol
+ツール
+↓
+WADをインストール
+↓
+Forwarder Channel の .wad ファイルを選択
 ```
 
-その後、以下の場所に配置します。
+インストール後、以下の操作でWiiメニューを起動します。
+
+```text
+ツール
+↓
+Wiiメニューを起動
+```
+
+Wiiメニュー上に `Wii MP3 Player` チャンネルが表示されます。
+
+そのチャンネルを起動すると、以下のファイルが実行されます。
 
 ```text
 sd:/apps/wii-mp3-player/boot.dol
 ```
 
-## 推奨プロジェクト構成
+---
 
-```text
-Wii-mp3-player/
-├─ source/
-│  └─ main.c
-├─ build/
-├─ assets/
-│  ├─ icon.png
-│  ├─ banner.png
-│  └─ channel_sound.wav
-├─ channel/
-│  └─ WiiMP3PlayerForwarder_v1.0_Dolphin.wad
-├─ sd/
-│  ├─ apps/
-│  │  └─ wii-mp3-player/
-│  │     ├─ boot.dol
-│  │     ├─ meta.xml
-│  │     └─ icon.png
-│  └─ music/
-│     └─ put_mp3_files_here.txt
-├─ Makefile
-└─ README.md
-```
+### 注意
 
-## 注意
+付属のWADファイルは、Dolphin Emulatorでのテストを想定しています。
 
+実機WiiにWADファイルをインストールする行為にはリスクがあります。
+実機で使用する場合は自己責任で行ってください。
 
-付属のWADファイルはDolphin Emulatorでのテストを想定しています。
-実機WiiにWADファイルをインストールする行為にはリスクがあります。自己責任で使用してください。
 
 ## ライセンス
 
