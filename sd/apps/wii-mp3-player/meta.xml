@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<app version="1">
+  <name>Wii MP3 Player</name>
+  <coder>2hoshis</coder>
+  <version>1.0</version>
+  <release_date>20260619000000</release_date>
+  <short_description>Simple MP3 player for Wii</short_description>
+  <long_description>
+    A simple homebrew MP3 player for Nintendo Wii.
+    Loads MP3 files from sd:/music.
+  </long_description>
+</app>
