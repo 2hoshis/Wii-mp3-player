@@ -1,54 +1,61 @@
 # Wii MP3 Player
 
-A simple Wii homebrew MP3 player prototype for Dolphin Emulator.
+Wii Homebrewとして動作する、Dolphin Emulator向けのMP3プレイヤー試作です。
 
-This project was created as a beginner Wii homebrew practice project using devkitPro, libogc, libfat, ASND, and MP3Player.
+devkitPro / libogc を使って、Wiiリモコン操作、仮想SDカードからのMP3読み込み、MP3再生などを実装しています。
 
-## Features
+## 機能
 
-* Runs as Wii homebrew on Dolphin Emulator
-* Reads `.mp3` files from `sd:/music`
-* Displays a song list
-* Wii Remote controls
-* Play / stop MP3 files
-* Next / previous song playback
-* Pause / resume
-* Reload song list from SD card
-* Simple white and pink console-style UI
+* Dolphin Emulator上でWii Homebrewとして起動
+* `sd:/music` 内の `.mp3` ファイルを読み込み
+* 曲リストの表示
+* Wiiリモコンによる操作
+* MP3の再生 / 停止
+* 次の曲 / 前の曲への移動
+* 一時停止 / 再開
+* SDカード内の曲リスト再読み込み
+* 白背景とピンク系文字のシンプルなコンソールUI
 
-## Controls
+## 操作方法
 
-| Button    | Action             |
-| --------- | ------------------ |
-| UP / DOWN | Select song        |
-| A         | Play selected song |
-| B         | Stop               |
-| +         | Play next song     |
-| -         | Play previous song |
-| 1         | Reload `sd:/music` |
-| 2         | Pause / resume     |
-| HOME      | Exit               |
+| ボタン            | 操作                 |
+| -------------- | ------------------ |
+| 十字キー UP / DOWN | 曲を選択               |
+| A              | 選択中の曲を再生           |
+| B              | 停止                 |
+| +              | 次の曲を再生             |
+| -              | 前の曲を再生             |
+| 1              | `sd:/music` を再読み込み |
+| 2              | 一時停止 / 再開          |
+| HOME           | 終了                 |
 
-## Folder Structure
+## MP3ファイルの配置
 
-MP3 files should be placed in the Dolphin virtual SD card like this:
+Dolphinの仮想SDカード内に `music` フォルダを作成し、その中にMP3ファイルを入れます。
 
 ```text
 sd:/music/song1.mp3
 sd:/music/song2.mp3
 ```
 
-On Windows, this can be done by mounting Dolphin's virtual SD card file with ImDisk.
+Windows環境では、Dolphinの仮想SDカード `WiiSD.raw` を ImDisk などでマウントして編集します。
 
-Example Dolphin SD file location:
+例：
 
 ```text
 C:\Users\testa\AppData\Roaming\Dolphin Emulator\Load\WiiSD.raw
 ```
 
-After mounting the virtual SD card, create a `music` folder in the root of the mounted drive and put MP3 files inside it.
+マウント後、仮想SDカードの直下に `music` フォルダを作成します。
 
-## Build Environment
+```text
+E:\
+└─ music
+   ├─ song1.mp3
+   └─ song2.mp3
+```
+
+## 開発環境
 
 * Windows
 * devkitPro
@@ -59,9 +66,9 @@ After mounting the virtual SD card, create a `music` folder in the root of the m
 * MP3Player
 * Dolphin Emulator
 
-## Build
+## ビルド方法
 
-Open devkitPro MSYS2 and run:
+devkitPro MSYS2を起動し、プロジェクトフォルダへ移動して `make` を実行します。
 
 ```bash
 cd /c/Users/testa/Projects/wii-homebrew-practice
@@ -69,21 +76,24 @@ make clean
 make
 ```
 
-The build generates a `.dol` file that can be launched with Dolphin Emulator.
+ビルドに成功すると `.dol` ファイルが生成されます。
+生成された `.dol` ファイルを Dolphin Emulator で起動します。
 
-## Notes
+## 注意点
 
-* Japanese filenames may not display correctly because the current UI uses the standard libogc console output.
-* Short ASCII filenames are recommended for now.
-* MP3 files are loaded fully into memory, so smaller files are recommended.
-* This project is currently a prototype.
+* 現在のUIは libogc の標準コンソール表示を使っています。
+* 日本語ファイル名は文字化けする可能性があります。
+* 現時点では英数字の短いファイル名を推奨します。
+* MP3ファイルは一度メモリに読み込んでから再生しています。
+* 大きすぎるMP3ファイルは再生できない場合があります。
+* 現在は試作段階です。
 
-## Future Ideas
+## 今後やりたいこと
 
-* Better graphical UI
-* Japanese font rendering
-* Shuffle playback
-* Repeat mode
-* Automatic next song playback
-* Progress display
-* Real Wii hardware testing
+* より見やすいGUI
+* 日本語フォント表示
+* シャッフル再生
+* リピート再生
+* 曲終了後の自動次曲再生
+* 再生時間や進捗バーの表示
+* 実機Wiiでの動作確認
