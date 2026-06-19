@@ -1,51 +1,89 @@
-# Wii Homebrew Practice
+# Wii MP3 Player
 
-This repository starts with a tiny Hello World Wii homebrew app that can be run in Dolphin.
+A simple Wii homebrew MP3 player prototype for Dolphin Emulator.
 
-## Files
+This project was created as a beginner Wii homebrew practice project using devkitPro, libogc, libfat, ASND, and MP3Player.
 
-- `source/main.c`: The app code. It sets up the Wii video console, prints a few lines of text, and exits when HOME is pressed on Wii Remote 1.
-- `Makefile`: The build script. It compiles `source/main.c` with devkitPro's PowerPC compiler and converts the result into a Dolphin-friendly `.dol` file.
-- `.gitignore`: Keeps generated build output out of git.
+## Features
 
-## Requirements
+* Runs as Wii homebrew on Dolphin Emulator
+* Reads `.mp3` files from `sd:/music`
+* Displays a song list
+* Wii Remote controls
+* Play / stop MP3 files
+* Next / previous song playback
+* Pause / resume
+* Reload song list from SD card
+* Simple white and pink console-style UI
 
-Install devkitPro with the Wii development tools:
+## Controls
 
-- devkitPPC
-- libogc
+| Button    | Action             |
+| --------- | ------------------ |
+| UP / DOWN | Select song        |
+| A         | Play selected song |
+| B         | Stop               |
+| +         | Play next song     |
+| -         | Play previous song |
+| 1         | Reload `sd:/music` |
+| 2         | Pause / resume     |
+| HOME      | Exit               |
 
-On Windows, build from the devkitPro MSYS2 shell so commands like `make` and `mkdir -p` are available.
+## Folder Structure
+
+MP3 files should be placed in the Dolphin virtual SD card like this:
+
+```text
+sd:/music/song1.mp3
+sd:/music/song2.mp3
+```
+
+On Windows, this can be done by mounting Dolphin's virtual SD card file with ImDisk.
+
+Example Dolphin SD file location:
+
+```text
+C:\Users\testa\AppData\Roaming\Dolphin Emulator\Load\WiiSD.raw
+```
+
+After mounting the virtual SD card, create a `music` folder in the root of the mounted drive and put MP3 files inside it.
+
+## Build Environment
+
+* Windows
+* devkitPro
+* devkitPPC
+* libogc
+* libfat
+* ASND
+* MP3Player
+* Dolphin Emulator
 
 ## Build
 
-```sh
+Open devkitPro MSYS2 and run:
+
+```bash
+cd /c/Users/testa/Projects/wii-homebrew-practice
+make clean
 make
 ```
 
-This creates:
+The build generates a `.dol` file that can be launched with Dolphin Emulator.
 
-- `hello-world.elf`: An intermediate executable.
-- `hello-world.dol`: The file to open in Dolphin.
+## Notes
 
-## Run In Dolphin
+* Japanese filenames may not display correctly because the current UI uses the standard libogc console output.
+* Short ASCII filenames are recommended for now.
+* MP3 files are loaded fully into memory, so smaller files are recommended.
+* This project is currently a prototype.
 
-Open Dolphin, then choose:
+## Future Ideas
 
-```text
-File -> Open -> hello-world.dol
-```
-
-You should see:
-
-```text
-Hello World from Wii homebrew!
-Run this .dol in Dolphin.
-Press HOME on a Wii Remote to exit.
-```
-
-## Clean
-
-```sh
-make clean
-```
+* Better graphical UI
+* Japanese font rendering
+* Shuffle playback
+* Repeat mode
+* Automatic next song playback
+* Progress display
+* Real Wii hardware testing
