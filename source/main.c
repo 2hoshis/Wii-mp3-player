@@ -30,13 +30,19 @@ int main(void)
 
     printf("\x1b[2;0H");
     printf("Hello World from Wii homebrew!\n\n");
-    printf("Run this .dol in Dolphin.\n");
+    printf("Press A to show a message.\n");
     printf("Press HOME on a Wii Remote to exit.\n");
 
     while (1) {
         WPAD_ScanPads();
 
         u32 pressed = WPAD_ButtonsDown(0);
+
+        if (pressed & WPAD_BUTTON_A) {
+            printf("\x1b[8;0H");
+            printf("You pressed A!        \n");
+        }
+
         if (pressed & WPAD_BUTTON_HOME) {
             break;
         }
