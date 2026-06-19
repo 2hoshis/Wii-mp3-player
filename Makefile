@@ -14,7 +14,7 @@ ELF2DOL := $(DEVKITPRO)/tools/bin/elf2dol
 MACHDEP := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
 CFLAGS := -g -O2 -Wall $(MACHDEP) -I$(LIBOGC)/include
 LDFLAGS := -g $(MACHDEP) -L$(LIBOGC)/lib/wii
-LIBS := -lfat -lwiiuse -lbte -logc -lm
+LIBS := -lfat -lmad -lasnd -lwiiuse -lbte -logc -lm
 
 CFILES := $(wildcard $(SOURCES)/*.c)
 OFILES := $(patsubst $(SOURCES)/%.c,$(BUILD)/%.o,$(CFILES))
