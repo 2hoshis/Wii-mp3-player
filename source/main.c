@@ -23,33 +23,32 @@ static void initialise_video(void)
     }
 }
 
-static void draw_menu(int selected)
+static void draw_player(const char *songs[], int song_count, int selected, const char *status)
 {
-    const char *items[] = {
-        "Hello",
-        "Button Test",
-        "Future MP3 Player"
-    };
-
-    int item_count = 3;
-
+    printf("\x1b[47;95m");
     printf("\x1b[2J");
     printf("\x1b[2;0H");
 
-    printf("Wii Homebrew Practice\n\n");
+    printf("\x1b[1;95m");
+    printf("Wii MP3 Player Prototype\n\n");
+    printf("\x1b[0;47;95m");
 
-    for (int i = 0; i < item_count; i++) {
+    for (int i = 0; i < song_count; i++) {
         if (i == selected) {
-            printf("> %s\n", items[i]);
+            printf("> %s\n", songs[i]);
         } else {
-            printf("  %s\n", items[i]);
+            printf("  %s\n", songs[i]);
         }
     }
 
     printf("\n");
-    printf("Press UP/DOWN to move.\n");
-    printf("Press A to select.\n");
-    printf("Press HOME to exit.\n");
+    printf("UP/DOWN: Move\n");
+    printf("A: Play\n");
+    printf("B: Stop\n");
+    printf("HOME: Exit\n");
+
+    printf("\n");
+    printf("Status: %s\n", status);
 }
 
 int main(void)
@@ -57,10 +56,19 @@ int main(void)
     initialise_video();
     WPAD_Init();
 
-    int selected = 0;
-    int item_count = 3;
+    const char *songs[] = {
+        "song1.mp3",
+        "song2.mp3",
+        "song3.mp3",
+        "my-favorite-beat.mp3"
+    };
 
-    draw_menu(selected);
+    int song_count = 4;
+    int selected = 0;
+
+    char status[128] = "Stopped";
+
+    draw_player(songs, song_count, selected, status);
 
     while (1) {
         WPAD_ScanPads();
@@ -71,32 +79,30 @@ int main(void)
             selected--;
 
             if (selected < 0) {
-                selected = item_count - 1;
+                selected = song_count - 1;
             }
 
-            draw_menu(selected);
+            draw_player(songs, song_count, selected, status);
         }
 
         if (pressed & WPAD_BUTTON_DOWN) {
             selected++;
 
-            if (selected >= item_count) {
+            if (selected >= song_count) {
                 selected = 0;
             }
 
-            draw_menu(selected);
+            draw_player(songs, song_count, selected, status);
         }
 
         if (pressed & WPAD_BUTTON_A) {
-            printf("\x1b[12;0H");
+            snprintf(status, sizeof(status), "Playing %s", songs[selected]);
+            draw_player(songs, song_count, selected, status);
+        }
 
-            if (selected == 0) {
-                printf("Selected: Hello             \n");
-            } else if (selected == 1) {
-                printf("Selected: Button Test       \n");
-            } else if (selected == 2) {
-                printf("Selected: Future MP3 Player \n");
-            }
+        if (pressed & WPAD_BUTTON_B) {
+            snprintf(status, sizeof(status), "Stopped");
+            draw_player(songs, song_count, selected, status);
         }
 
         if (pressed & WPAD_BUTTON_HOME) {
