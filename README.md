@@ -1,6 +1,6 @@
 # Wii MP3 Player
 
-Nintendo Wii向けのシンプルな自作MP3プレイヤーです。
+Nintendo Wii向けのMP3プレイヤーです。
 
 SDカード内のMP3ファイルを読み込み、Wiiリモコンで曲を選択・再生できます。
 Dolphin Emulator上では、カスタムForwarder Channelを使ってWiiメニューから起動できます。
